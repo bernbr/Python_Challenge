@@ -49,20 +49,24 @@ with open(csvpath) as csvfile:
         nProfit = int(row[1])
         Monthly_Profit_Change = nProfit - Profit_Start
         Change.append(int(Monthly_Profit_Change))
-        
+        Total_Change = Total_Change + Monthly_Profit_Change
 
         Profit_Start = nProfit
  
-    Total_Change = Total_Change+Monthly_Profit_Change
-    Average_Change = Total_Change/Month_Count
+        #Total_Change = Total_Change + Monthly_Profit_Change
+    Average_Change = Total_Change / Month_Count
     #print(Average_Change)
 
-        # Greatest Increase
+# Greatest Increase
 Greatest_Increase = max(Change)
+
+# Indexed Date for Greatest Increase
 Increase_Date = Date[Change.index(Greatest_Increase)]
 
-        # Greatest Decrease
+# Greatest Decrease 
 Greatest_Decrease = min(Change)
+
+# Indexed Date for Greatest Decrease
 Decrease_Date = Date[Change.index(Greatest_Decrease)]
 
 # Write Summary Table
