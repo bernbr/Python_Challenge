@@ -86,3 +86,14 @@ print("Greatest Increase in Profits: ", Increase_Date, "($"+str(int(Greatest_Inc
 print("Greatest Increase in Profits: ", Decrease_Date, "($"+str(int(Greatest_Decrease))+")")
 
 # Write output to CSV file
+# Text Output
+lines = ["Financial Analysis", "-------------------------------------", "Total Months: "+str(int(Month_Count)), "Total: "+"$"+str(int(Total_Profit)), "Average Change: "+"$"+str(int(Average_Change)), "Greatest Increase in Profits: "+Increase_Date+" "+"($"+str(int(Greatest_Increase))+")", "Greatest Increase in Profits: "+Decrease_Date+" "+"($"+str(int(Greatest_Decrease))+")"]
+
+# Output file
+output = os.path.join("Analysis", "output.txt")
+
+# Wrtie output as text file
+with open(output, "w") as txtfile:
+
+    # Write to document
+    txtfile.write('\n'.join(lines))
