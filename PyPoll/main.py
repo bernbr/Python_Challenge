@@ -1,9 +1,3 @@
-
-        # A complete list of candidates who received votes
-        # The percentage of votes each candidate won
-        # The total number of votes each candidate won
-        # The winner of the election based on popular vote
-
 # OS Module: This will will allow us to create paths across operating systems. 
 import os
 
@@ -12,9 +6,6 @@ import csv
 
 # File Path
 csvpath = os.path.join('Resources', 'election_data.csv')
-
-# Analysis Results
-analysis_results = os.path.join("Analysis", "PyPoll_Analysis.txt")
 
 # Vote Counter
 Vote_Count = 0
@@ -32,8 +23,6 @@ Stockham_Votes = 0
 DeGette_Votes = 0
 Doane_Votes = 0
 Winner = ""
-# Winners_Count = 0
-# Winners_Percentage = 0
 breakline = "---------------------------"
 
 # Open as 
@@ -45,8 +34,6 @@ with open(csvpath) as csvfile:
 
     # CSV header
     csv_header = next(csvreader)
-    print(f"CSV Header: {csv_header}")
-
 
     # Commands for Each Row
     for row in csvreader: 
@@ -57,6 +44,7 @@ with open(csvpath) as csvfile:
         # The total number of votes cast
         Vote_Count = Vote_Count + 1
 
+        # Votes cast for each candidate
         if Stockham in Candidate:
             Stockham_Votes += 1
 
@@ -66,20 +54,25 @@ with open(csvpath) as csvfile:
         elif Doane in Candidate:
             Doane_Votes += 1    
 
+    # Candidate Percentage
+    Stockham_Percentage = (Stockham_Votes / Vote_Count) * 100
+    DeGette_Percentage = (DeGette_Votes / Vote_Count) * 100
+    Doane_Percentage = (Doane_Votes / Vote_Count) * 100
+
+    # Round the percentage for each candidate
+    Stockham_Percentage = round(Stockham_Percentage, 3)
+    DeGette_Percentage = round(DeGette_Percentage, 3)
+    Doane_Percentage = round(Doane_Percentage, 3)
+
+    # Winner
     if (Stockham_Votes > DeGette_Votes) and (Stockham_Votes > Doane_Votes):
         Winner = "Charles Casper Stockham"
-        Winners_Count = Stockham_Votes
-        Winners_Percentage = Stockham_Percentage
 
     elif (DeGette_Votes > Stockham_Votes) and (DeGette_Votes > Doane_Votes):
         Winner = "Diana DeGette"
-        Winners_Count = DeGette_Votes
-        Winners_Percentage = DeGette_Percentage
 
     elif (Doane_Votes > Stockham_Votes) and (Doane_Votes > DeGette_Votes):
         Winner = "Raymon Anthony Doane"
-        Winners_Count = Doane_Votes
-        Winners_Percentage = Doane_Percentage
 
 # Print Summary Table
 print(" ")
@@ -91,15 +84,27 @@ print("Total Votes: ", str(int(Vote_Count)))
 print(breakline)
 
 # Print Votes for Stockham
-print("Charles Casper Stockham: ", str(float(Stockham_Percentage))+"%", str(int(Stockham_Votes)))
+print("Charles Casper Stockham: ", str(float(Stockham_Percentage))+"%", "("+str(int(Stockham_Votes))+")")
 
 # Print Votes for DeGette
-print("Diana DeGette: ", str(float(DeGette_Percentage))+"%", str(int(DeGette_Votes)))
+print("Diana DeGette: ", str(float(DeGette_Percentage))+"%", "("+str(int(DeGette_Votes))+")")
 
 # Print Votes for Doane
-print("Raymon Anthony Doane: ", str(float(Doane_Percentage))+"%", str(int(Doane_Votes)))
+print("Raymon Anthony Doane: ", str(float(Doane_Percentage))+"%", "("+str(int(Doane_Votes))+")")
 print(breakline)
 
 # Print Winner
 print("Winner: ", str(Winner))
 print(breakline)
+
+# Text Output
+lines = ['Election Results', breakline, 'Total Votes: '+str(int(Vote_Count)), breakline, "Charles Casper Stockham: "+str(float(Stockham_Percentage))+"%"+" "+"("+str(int(Stockham_Votes))+")", "Diana DeGette: "+str(float(DeGette_Percentage))+"%"+" "+"("+str(int(DeGette_Votes))+")", "Raymon Anthony Doane: "+str(float(Doane_Percentage))+"%"+" "+"("+str(int(Doane_Votes))+")", breakline, "Winner: "+str(Winner), breakline]
+
+# Output file
+output = os.path.join("Analysis", "output.txt")
+
+# Wrtie output as text file
+with open(output, "w") as txtfile:
+
+    # Write to document
+    txtfile.write('\n'.join(lines))
