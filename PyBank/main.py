@@ -10,12 +10,15 @@ Net_Total = []
 Profit = []
 Total_Months = []
 Change = []
+Increase_Decrease = []
+
 # Initial Variables
 Profit_Start = 0
 Month_Count = 0
 Total_Profit = 0
 Profit_Change = 0
 Total_Change = 0
+Start = 0
 # Open as 
 with open(csvpath) as csvfile:
     # CSV Reader
@@ -41,9 +44,25 @@ with open(csvpath) as csvfile:
         Change.append(int(Monthly_Profit_Change))
         
         Profit_Start = nProfit
+
+        if Month_Count == 1:
+            pProfit = int(row[1])
+            Start = pProfit
+            
+        elif Month_Count != 1:
+            pProfit = int(row[1])
+            Inc_Dec = pProfit - Start
+            Increase_Decrease.append(int(Inc_Dec))
+            Total_Change = Total_Change + Monthly_Profit_Change
+            Start = pProfit
+
+        elif Month_Count == len(list(csvpath)):
+            pass
+
  
-    Total_Change = Total_Change+Monthly_Profit_Change
-    Average_Change = Total_Change/Month_Count
+    Average_Change = Total_Change + Monthly_Profit_Change
+    Average_Change = Total_Change/(Month_Count - 1)
+    Average_Change = round(Average_Change, 2)
     #print(Average_Change)
         # Greatest Increase
 Greatest_Increase = max(Change)
@@ -60,7 +79,7 @@ print("Total Months: ", str(int(Month_Count)))
 # The net total amount of "Profit/Losses" over the entire period
 print("Total: ", "$"+str(int(Total_Profit)))
 # The changes in "Profit/Losses" over the entire period, and then the average of those changes
-print("Average Change: ", "$"+str(int(Average_Change)))
+print("Average Change: ", "$"+str("%.2f" % Average_Change))
 # The greatest increase in profits (date and amount) over the entire period
 print("Greatest Increase in Profits: ", Increase_Date, "($"+str(int(Greatest_Increase))+")")
 # The greatest decrease in profits (date and amount) over the entire period
@@ -69,7 +88,7 @@ print("Greatest Increase in Profits: ", Decrease_Date, "($"+str(int(Greatest_Dec
 # Write output to CSV file
 # Write output to CSV file
 # Text Output
-lines = ["Financial Analysis", "-------------------------------------", "Total Months: "+str(int(Month_Count)), "Total: "+"$"+str(int(Total_Profit)), "Average Change: "+"$"+str(int(Average_Change)), "Greatest Increase in Profits: "+Increase_Date+" "+"($"+str(int(Greatest_Increase))+")", "Greatest Increase in Profits: "+Decrease_Date+" "+"($"+str(int(Greatest_Decrease))+")"]
+lines = ["Financial Analysis", "-------------------------------------", "Total Months: "+str(int(Month_Count)), "Total: "+"$"+str(int(Total_Profit)), "Average Change: "+"$"+str("%.2f" % Average_Change), "Greatest Increase in Profits: "+Increase_Date+" "+"($"+str(int(Greatest_Increase))+")", "Greatest Increase in Profits: "+Decrease_Date+" "+"($"+str(int(Greatest_Decrease))+")"]
 
 # Output file
 output = os.path.join("Analysis", "output.txt")
