@@ -52,10 +52,8 @@ with open(csvpath) as csvfile:
         Total_Change = Total_Change + Monthly_Profit_Change
 
         Profit_Start = nProfit
- 
-        #Total_Change = Total_Change + Monthly_Profit_Change
+    # Average Change
     Average_Change = Total_Change / Month_Count
-    #print(Average_Change)
 
 # Greatest Increase
 Greatest_Increase = max(Change)
@@ -89,7 +87,6 @@ print("Greatest Increase in Profits: ", Increase_Date, "($"+str(int(Greatest_Inc
 # The greatest decrease in profits (date and amount) over the entire period
 print("Greatest Increase in Profits: ", Decrease_Date, "($"+str(int(Greatest_Decrease))+")")
 
-# Write output to CSV file
 # Text Output
 lines = ["Financial Analysis", "-------------------------------------", "Total Months: "+str(int(Month_Count)), "Total: "+"$"+str(int(Total_Profit)), "Average Change: "+"$"+str(int(Average_Change)), "Greatest Increase in Profits: "+Increase_Date+" "+"($"+str(int(Greatest_Increase))+")", "Greatest Increase in Profits: "+Decrease_Date+" "+"($"+str(int(Greatest_Decrease))+")"]
 
