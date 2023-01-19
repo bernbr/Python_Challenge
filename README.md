@@ -1,6 +1,4 @@
-# Python_Challenge
-
-Module 3 Challenge
+Python_Challenge
 
 Due Wednesday Janiary 18, 2023 by 11:59pm 
 Points 100 Submitting a text entry box or a website url
