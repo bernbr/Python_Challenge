@@ -14,7 +14,7 @@ Profit = []
 Total_Months = []
 Change = []
 
-# Initial Variables
+# Initialize Variables
 Profit_Start = 0
 Month_Count = 0
 Total_Profit = 0
@@ -26,11 +26,9 @@ with open(csvpath) as csvfile:
 
     # CSV Reader
     csvreader = csv.reader(csvfile, delimiter=',')
-    # print(csvreader)
 
     # CSV header
     csv_header = next(csvreader)
-    #print(f"CSV Header: {csv_header}")
 
     # Commands for Each Row
     for row in csvreader: 
@@ -44,16 +42,31 @@ with open(csvpath) as csvfile:
 
         # Profit Total
         Total_Profit = Total_Profit + int(row[1])
-        
-        # Average Profit Change
-        nProfit = int(row[1])
-        Monthly_Profit_Change = nProfit - Profit_Start
-        Change.append(int(Monthly_Profit_Change))
-        Total_Change = Total_Change + Monthly_Profit_Change
 
-        Profit_Start = nProfit
+        # Skip first row's monthly profit change
+        if Month_Count == 1:
+            nProfit = int(row[1])
+            Profit_Start = nProfit
+
+        # start on second months monthly profit change between month 1 and month 2
+        # nProfit = Current Month profit/loss
+        # Profit_Start = Previous Month profit/loss
+        elif Month_Count != 1 and Month_Count != len(list(csvpath)):
+
+            nProfit = int(row[1])
+            Monthly_Profit_Change = nProfit - Profit_Start
+            Change.append(int(Monthly_Profit_Change))
+            Total_Change = Total_Change + Monthly_Profit_Change
+
+            # Re-initialize Profit_Start as nProfit 
+            Profit_Start = nProfit
+
+        elif Month_Count == len(list(csvpath)):
+            pass 
+            
     # Average Change
-    Average_Change = Total_Change / Month_Count
+    Average_Change = Total_Change / (Month_Count - 1)
+    Average_Change = round(Average_Change, 2)
 
 # Greatest Increase
 Greatest_Increase = max(Change)
@@ -78,8 +91,9 @@ print("Total Months: ", str(int(Month_Count)))
 # The net total amount of "Profit/Losses" over the entire period
 print("Total: ", "$"+str(int(Total_Profit)))
 
+# Format_Average = "{:.2f}".format(Average_Change)
 # The changes in "Profit/Losses" over the entire period, and then the average of those changes
-print("Average Change: ", "$"+str(int(Average_Change)))
+print("Average Change: ", "$"+str("%.2f" % Average_Change))
 
 # The greatest increase in profits (date and amount) over the entire period
 print("Greatest Increase in Profits: ", Increase_Date, "($"+str(int(Greatest_Increase))+")")
@@ -88,7 +102,7 @@ print("Greatest Increase in Profits: ", Increase_Date, "($"+str(int(Greatest_Inc
 print("Greatest Increase in Profits: ", Decrease_Date, "($"+str(int(Greatest_Decrease))+")")
 
 # Text Output
-lines = ["Financial Analysis", "-------------------------------------", "Total Months: "+str(int(Month_Count)), "Total: "+"$"+str(int(Total_Profit)), "Average Change: "+"$"+str(int(Average_Change)), "Greatest Increase in Profits: "+Increase_Date+" "+"($"+str(int(Greatest_Increase))+")", "Greatest Increase in Profits: "+Decrease_Date+" "+"($"+str(int(Greatest_Decrease))+")"]
+lines = ["Financial Analysis", "-------------------------------------", "Total Months: "+str(int(Month_Count)), "Total: "+"$"+str(int(Total_Profit)), "Average Change: "+"$"+str("%.2f" % Average_Change), "Greatest Increase in Profits: "+Increase_Date+" "+"($"+str(int(Greatest_Increase))+")", "Greatest Increase in Profits: "+Decrease_Date+" "+"($"+str(int(Greatest_Decrease))+")"]
 
 # Output file
 output = os.path.join("Analysis", "output.txt")
